@@ -22,6 +22,14 @@ const startServer = async () => {
     Logger.info(`🚀 Server running smoothly on http://localhost:${ENVIRONMENT.PORT}`);
   });
 
+  server.on('error', (error: any) => {
+    if (error.code === 'EADDRINUSE') {
+      Logger.error(`❌ Port ${ENVIRONMENT.PORT} is already in use by another process. Kill the process or restart.`);
+    } else {
+      Logger.error('Server error:', error);
+    }
+  });
+
   process.on('SIGTERM', () => {
     Logger.info('SIGTERM signal received. Shutting down server gracefully...');
     server.close(() => {
