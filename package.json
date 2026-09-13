@@ -5,7 +5,7 @@
   "description": "Industrial Node.js Express TypeScript Backend for Taxfiler Submissions and Registrations",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "dev": "nodemon",
     "build": "tsc",
     "start": "node dist/server.js"
   },
@@ -24,6 +24,8 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^22.10.1",
     "@types/nodemailer": "^8.0.1",
+    "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   }
