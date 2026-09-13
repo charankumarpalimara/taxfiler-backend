@@ -1,0 +1,81 @@
+[
+  {
+    "id": "sub_101",
+    "type": "consultation",
+    "firstName": "Marcus",
+    "lastName": "Vance",
+    "clientName": "Marcus Vance",
+    "email": "m.vance@vancetech.io",
+    "phone": "+1 (512) 894-3320",
+    "preferredLanguage": "English",
+    "scheduledDate": "Tuesday, March 17, 2026",
+    "scheduledTime": "10:00 AM Central Time (CST)",
+    "services": [
+      "Tax Preparation",
+      "ERC Tax Credit Consulting"
+    ],
+    "leadSource": "CPA / Attorney Referral",
+    "notes": "Need multi-entity tax filing for Delaware C-Corp and Texas LLC holding company before the upcoming April deadline.",
+    "status": "New",
+    "createdAt": "2026-09-12T17:40:14.635Z"
+  },
+  {
+    "id": "sub_102",
+    "type": "consultation",
+    "firstName": "Dr. Elena",
+    "lastName": "Rodriguez",
+    "clientName": "Dr. Elena Rodriguez",
+    "email": "elena.rodriguez@austinhealthgroup.org",
+    "phone": "+1 (512) 478-9122",
+    "preferredLanguage": "Spanish",
+    "scheduledDate": "Wednesday, March 18, 2026",
+    "scheduledTime": "02:00 PM Central Time (CST)",
+    "services": [
+      "Bookkeeping",
+      "Financial Writeup & Reporting"
+    ],
+    "leadSource": "Google Search",
+    "notes": "Seeking monthly outsourced bookkeeping and financial statement preparation for 3 medical practice locations.",
+    "status": "In Progress",
+    "createdAt": "2026-09-12T15:15:14.636Z"
+  },
+  {
+    "id": "sub_103",
+    "type": "quick_contact",
+    "firstName": "David",
+    "lastName": "Chen",
+    "clientName": "David Chen",
+    "email": "dchen@chencapital.com",
+    "phone": "+1 (713) 620-4491",
+    "preferredLanguage": "English",
+    "scheduledDate": "Thursday, March 19, 2026",
+    "scheduledTime": "04:30 PM Central Time (CST)",
+    "services": [
+      "Payroll"
+    ],
+    "leadSource": "LinkedIn",
+    "notes": "Switching from ADP. Need automated bi-weekly payroll compliance for 45 remote and Texas employees.",
+    "status": "Contacted",
+    "createdAt": "2026-09-12T00:15:14.636Z"
+  },
+  {
+    "id": "sub_104",
+    "type": "consultation",
+    "firstName": "Sarah",
+    "lastName": "Jenkins",
+    "clientName": "Sarah Jenkins",
+    "email": "sarah@luminaevents.com",
+    "phone": "+1 (214) 773-8902",
+    "preferredLanguage": "English",
+    "scheduledDate": "Friday, March 20, 2026",
+    "scheduledTime": "10:00 AM Central Time (CST)",
+    "services": [
+      "Tax Planning",
+      "Exit Strategy Consulting"
+    ],
+    "leadSource": "Friend or Colleague",
+    "notes": "Planning business sale in Q4. Want to structure pre-sale tax minimization strategy and capital gains review.",
+    "status": "Completed",
+    "createdAt": "2026-09-11T00:15:14.636Z"
+  }
+]
