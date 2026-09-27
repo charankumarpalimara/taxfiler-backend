@@ -1,6 +1,7 @@
 import { SubmissionsRepository } from '../repositories/submissions.repository.js';
 import { Submission, SubmissionStatus } from '../types/index.js';
 import { EmailService } from './email.service.js';
+import { BadRequestError, NotFoundError } from '../errors/index.js';
 
 export class SubmissionsService {
   private repository: SubmissionsRepository;
@@ -19,7 +20,7 @@ export class SubmissionsService {
 
   public async createSubmission(payload: Partial<Submission>): Promise<Submission> {
     if (!payload.email) {
-      throw new Error('Email is required for submission creation');
+      throw new BadRequestError('Email is required for submission creation');
     }
     const created = await this.repository.create(payload);
     
@@ -32,7 +33,7 @@ export class SubmissionsService {
   public async updateSubmission(id: string, updates: { status?: SubmissionStatus; staffNote?: string }): Promise<Submission> {
     const updated = await this.repository.update(id, updates);
     if (!updated) {
-      throw new Error(`Submission with ID ${id} not found`);
+      throw new NotFoundError(`Submission with ID ${id} not found`);
     }
     return updated;
   }
@@ -40,7 +41,7 @@ export class SubmissionsService {
   public async deleteSubmission(id: string): Promise<boolean> {
     const deleted = await this.repository.delete(id);
     if (!deleted) {
-      throw new Error(`Submission with ID ${id} not found`);
+      throw new NotFoundError(`Submission with ID ${id} not found`);
     }
     return true;
   }

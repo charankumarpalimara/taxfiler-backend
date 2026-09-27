@@ -1,6 +1,7 @@
 import { RegistrationsRepository } from '../repositories/registrations.repository.js';
 import { Registration, PortalStatus } from '../types/index.js';
 import { EmailService } from './email.service.js';
+import { BadRequestError, NotFoundError } from '../errors/index.js';
 
 export class RegistrationsService {
   private repository: RegistrationsRepository;
@@ -19,7 +20,7 @@ export class RegistrationsService {
 
   public async createRegistration(payload: Partial<Registration>): Promise<Registration> {
     if (!payload.email) {
-      throw new Error('Email is required for registration');
+      throw new BadRequestError('Email is required for registration');
     }
     const created = await this.repository.create(payload);
 
@@ -32,7 +33,7 @@ export class RegistrationsService {
   public async updateRegistrationStatus(id: string, portalStatus: PortalStatus): Promise<Registration> {
     const updated = await this.repository.updateStatus(id, portalStatus);
     if (!updated) {
-      throw new Error(`Registration with ID ${id} not found`);
+      throw new NotFoundError(`Registration with ID ${id} not found`);
     }
     return updated;
   }
@@ -40,7 +41,7 @@ export class RegistrationsService {
   public async deleteRegistration(id: string): Promise<boolean> {
     const deleted = await this.repository.delete(id);
     if (!deleted) {
-      throw new Error(`Registration with ID ${id} not found`);
+      throw new NotFoundError(`Registration with ID ${id} not found`);
     }
     return true;
   }

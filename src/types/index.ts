@@ -29,7 +29,24 @@ export interface Registration {
   email: string;
   phone: string;
   portalStatus: PortalStatus;
+  password: string;
   accountType: string;
+  createdAt: string;
+  lastLogin?: string;
+  updatedAt?: string;
+}
+
+export interface User {
+  id: string;
+  firstName?: string;
+  lastName?: string;
+  fullName: string;
+  email: string;
+  phone?: string;
+  password?: string;
+  role: 'user' | 'client';
+  portalStatus?: PortalStatus;
+  accountType?: string;
   createdAt: string;
   lastLogin?: string;
   updatedAt?: string;

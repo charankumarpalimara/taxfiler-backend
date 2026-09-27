@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { RegistrationModel } from '../models/registration.model.js';
+import { UserModel } from '../models/user.model.js';
 import { Registration, PortalStatus } from '../types/index.js';
 import { Logger } from '../utils/logger.js';
 
@@ -46,12 +47,14 @@ export class RegistrationsRepository {
 
   public async create(payload: Partial<Registration>): Promise<Registration> {
     await this.seedIfNeeded();
+    const cleanEmail = (payload.email || '').toLowerCase().trim();
     const newRegistrationData = {
       id: `reg_${Date.now()}`,
       firstName: payload.firstName || '',
       lastName: payload.lastName || '',
       fullName: payload.fullName || `${payload.firstName || ''} ${payload.lastName || ''}`.trim() || 'Portal Client',
-      email: payload.email || '',
+      email: cleanEmail,
+      password: payload.password || '',
       phone: payload.phone || '',
       portalStatus: (payload.portalStatus as PortalStatus) || 'Pending Review',
       accountType: payload.accountType || 'Business Portal',
@@ -60,6 +63,33 @@ export class RegistrationsRepository {
     };
 
     const created = await RegistrationModel.create(newRegistrationData);
+
+    // Sync to UserModel for user authentication
+    try {
+      await UserModel.findOneAndUpdate(
+        { email: cleanEmail },
+        {
+          $set: {
+            id: newRegistrationData.id,
+            firstName: newRegistrationData.firstName,
+            lastName: newRegistrationData.lastName,
+            fullName: newRegistrationData.fullName,
+            email: cleanEmail,
+            phone: newRegistrationData.phone,
+            password: newRegistrationData.password,
+            role: 'client',
+            portalStatus: newRegistrationData.portalStatus,
+            accountType: newRegistrationData.accountType,
+            createdAt: newRegistrationData.createdAt,
+            lastLogin: newRegistrationData.lastLogin,
+          },
+        },
+        { upsert: true, new: true }
+      );
+    } catch (userErr) {
+      Logger.warn('Notice syncing user to UserModel:', userErr);
+    }
+
     const obj = created.toObject();
     const { _id, __v, ...rest } = obj as any;
     return rest as Registration;
