@@ -1,41 +1,56 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import { User, PortalStatus } from '../types/index.js';
 
-export interface IUserDocument extends Omit<User, 'id'>, Document {
-  id: string;
+export interface IUserDocument extends Document {
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  email: string;
+  password?: string;
+  mobile?: string;
+  phone?: string;
+  referralId?: string;
+  referralBy?: string;
+  image?: string;
+  address?: string;
+  role: 'user' | 'client' | 'admin';
+  portalStatus?: string;
+  accountType?: string;
+  createdAt?: string;
+  lastLogin?: string;
+  updatedAt?: string;
 }
 
 const userSchema = new Schema<IUserDocument>(
   {
-    id: { type: String, required: true, unique: true },
     firstName: { type: String, default: '' },
     lastName: { type: String, default: '' },
-    fullName: { type: String, required: true },
+    fullName: { type: String, default: '' },
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    phone: { type: String, default: '' },
     password: { type: String, required: true },
-    role: { type: String, enum: ['user', 'client'], default: 'user' },
-    portalStatus: {
-      type: String,
-      enum: ['Verified', 'Active', 'Pending Review', 'Suspended'],
-      default: 'Pending Review',
-    },
-    accountType: { type: String, default: 'Individual Portal' },
-    createdAt: { type: String, required: true },
+    mobile: { type: String, default: '' },
+    phone: { type: String, default: '' },
+    referralId: { type: String, default: '' },
+    referralBy: { type: String, default: '' },
+    image: { type: String, default: '' },
+    address: { type: String, default: '' },
+    role: { type: String, enum: ['user', 'client', 'admin'], default: 'user' },
+    portalStatus: { type: String, default: 'Active' },
+    accountType: { type: String, default: 'Individual Tax Filer' },
+    createdAt: { type: String, default: () => new Date().toISOString() },
     lastLogin: { type: String, default: 'Pending first login' },
-    updatedAt: { type: String },
+    updatedAt: { type: String, default: () => new Date().toISOString() },
   },
   {
-    timestamps: false,
+    timestamps: true,
     toJSON: {
       transform: (_doc, ret: any) => {
-        delete ret._id;
-        delete ret.__v;
+        ret.id = ret._id ? ret._id.toString() : ret.id;
         delete ret.password;
+        delete ret.__v;
         return ret;
       },
     },
   }
 );
 
-export const UserModel = mongoose.model<IUserDocument>('User', userSchema);
+export const UserModel = mongoose.models.User || mongoose.model<IUserDocument>('User', userSchema);

@@ -1,9 +1,19 @@
 import { Request, Response, NextFunction } from 'express';
-import { AuthService, AdminAuthPayload } from '../services/auth.service.js';
+import jwt from 'jsonwebtoken';
 import { ApiResponse } from '../utils/apiResponse.js';
 
+const JWT_SECRET = process.env.JWT_SECRET || 'taxfiler_super_secret_jwt_key_2026';
+
+export interface UserAuthPayload {
+  id?: string;
+  adminId?: string;
+  email: string;
+  role?: string;
+  fullName?: string;
+}
+
 export interface AuthenticatedRequest extends Request {
-  user?: AdminAuthPayload;
+  user?: UserAuthPayload;
 }
 
 export const authenticateToken = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
@@ -16,7 +26,7 @@ export const authenticateToken = (req: AuthenticatedRequest, res: Response, next
   }
 
   try {
-    const decoded = AuthService.verifyToken(token);
+    const decoded = jwt.verify(token, JWT_SECRET) as UserAuthPayload;
     req.user = decoded;
     next();
   } catch (error) {
@@ -24,3 +34,5 @@ export const authenticateToken = (req: AuthenticatedRequest, res: Response, next
     return;
   }
 };
+
+export const verifytoken = authenticateToken;

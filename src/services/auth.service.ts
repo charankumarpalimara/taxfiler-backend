@@ -8,6 +8,7 @@ import { Logger } from '../utils/logger.js';
 import { UnauthorizedError, BadRequestError } from '../errors/index.js';
 
 export interface AdminAuthPayload {
+  id?: string;
   adminId: string;
   email: string;
   role: string;
@@ -67,6 +68,7 @@ export class AuthService {
     await admin.save();
 
     const payload: AdminAuthPayload = {
+      id: admin.id,
       adminId: admin.id,
       email: admin.email,
       role: admin.role,
