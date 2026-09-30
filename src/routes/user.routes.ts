@@ -10,9 +10,19 @@ import * as documentController from '../controllers/user/document.controller.js'
 import * as scheduleController from '../controllers/user/schedule.controller.js';
 import * as referralController from '../controllers/user/referral.controller.js';
 
-const uploadDir = path.join(process.cwd(), 'uploads');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
+import os from 'os';
+
+const isVercel = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
+const uploadDir = isVercel
+  ? path.join(os.tmpdir(), 'uploads')
+  : path.join(process.cwd(), 'uploads');
+
+try {
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+} catch (err) {
+  console.warn('Warning: Could not create upload directory:', err);
 }
 
 const storage = multer.diskStorage({
