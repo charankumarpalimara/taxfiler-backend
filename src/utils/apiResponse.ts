@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { ApiResponse as IApiResponse } from '../types/index.js';
+import { ApiResponse as IApiResponse, PaginationMeta } from '../types/index.js';
 
 export class ApiResponse {
   public static success<T>(
@@ -7,7 +7,8 @@ export class ApiResponse {
     data?: T,
     messageOrCount?: string | number,
     statusCodeOrMessage: number | string = 200,
-    statusCode: number = 200
+    statusCode: number = 200,
+    pagination?: PaginationMeta
   ): Response {
     let message: string | undefined;
     let count: number | undefined;
@@ -36,10 +37,28 @@ export class ApiResponse {
       success: true,
       ...(message && { message }),
       ...(count !== undefined && { count }),
+      ...(pagination && { pagination }),
       ...(data !== undefined && { data }),
     };
 
     return res.status(finalStatusCode).json(payload);
+  }
+
+  public static paginated<T>(
+    res: Response,
+    data: T,
+    pagination: PaginationMeta,
+    message: string = 'Data retrieved successfully',
+    statusCode: number = 200
+  ): Response {
+    const payload: IApiResponse<T> = {
+      success: true,
+      message,
+      count: pagination.total,
+      pagination,
+      data,
+    };
+    return res.status(statusCode).json(payload);
   }
 
   public static error(res: Response, error: string, statusCode: number = 500): Response {

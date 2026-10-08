@@ -7,6 +7,8 @@ export interface IDocumentUploadDocument extends Document {
   fileName: string;
   fileUrl: string;
   fileSize?: number;
+  status: 'Pending Review' | 'Approved' | 'Rejected';
+  reviewNotes?: string;
 }
 
 const documentUploadSchema = new Schema<IDocumentUploadDocument>(
@@ -17,6 +19,8 @@ const documentUploadSchema = new Schema<IDocumentUploadDocument>(
     fileName: { type: String, required: true },
     fileUrl: { type: String, required: true },
     fileSize: { type: Number, default: 0 },
+    status: { type: String, enum: ['Pending Review', 'Approved', 'Rejected'], default: 'Pending Review' },
+    reviewNotes: { type: String, default: '' },
   },
   {
     timestamps: true,

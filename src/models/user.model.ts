@@ -14,6 +14,9 @@ export interface IUserDocument extends Document {
   address?: string;
   role: 'user' | 'client' | 'admin';
   portalStatus?: string;
+  filingStatus?: string;
+  assignedCPA?: string;
+  notes?: string;
   accountType?: string;
   createdAt?: string;
   lastLogin?: string;
@@ -35,6 +38,9 @@ const userSchema = new Schema<IUserDocument>(
     address: { type: String, default: '' },
     role: { type: String, enum: ['user', 'client', 'admin'], default: 'user' },
     portalStatus: { type: String, default: 'Active' },
+    filingStatus: { type: String, default: 'Documents Uploaded' },
+    assignedCPA: { type: String, default: 'David Miller, CPA' },
+    notes: { type: String, default: '' },
     accountType: { type: String, default: 'Individual Tax Filer' },
     createdAt: { type: String, default: () => new Date().toISOString() },
     lastLogin: { type: String, default: 'Pending first login' },

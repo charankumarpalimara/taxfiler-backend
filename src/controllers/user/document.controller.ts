@@ -5,7 +5,7 @@ import { ApiResponse } from '../../utils/apiResponse.js';
 
 export const uploadDocument = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
-    const userId = req.user?.id;
+    const userId = req.user?.adminId;
     const { documentType, person } = req.body;
 
     if (!req.file && !req.body.fileUrl) {

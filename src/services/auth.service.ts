@@ -129,6 +129,7 @@ export class AuthService {
 
     const payload: AdminAuthPayload = {
       adminId: userDoc.id,
+      id: userDoc.id,
       email: userDoc.email,
       role: userDoc.role || 'client',
     };

@@ -210,6 +210,7 @@ export const createDependent = async (req: AuthenticatedRequest, res: Response):
   try {
     const userId = req.user?.id;
     const payload = req.body;
+    console.log("userId", userId)
 
     if (Array.isArray(payload)) {
       await DependentModel.deleteMany({ user: userId });

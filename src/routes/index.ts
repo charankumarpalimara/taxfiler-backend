@@ -3,6 +3,7 @@ import submissionsRoutes from './submissions.routes.js';
 import registrationsRoutes from './registrations.routes.js';
 import authRoutes from './auth.routes.js';
 import userRoutes from './user.routes.js';
+import adminRoutes from './admin.routes.js';
 
 const router = Router();
 
@@ -19,5 +20,6 @@ router.use('/user', userRoutes);
 router.use('/auth', authRoutes);
 router.use('/submissions', submissionsRoutes);
 router.use('/registrations', registrationsRoutes);
+router.use('/admin', adminRoutes);
 
 export default router;
